@@ -3,7 +3,7 @@ package com.eventmanagement.api.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -14,22 +14,25 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title is required")
+    @NotBlank(message = "Title is mandatory")
+    @Column(nullable = false)
     private String title;
 
     private String description;
 
-    @NotBlank(message = "Location is required")
+    @NotBlank(message = "Location is mandatory")
+    @Column(nullable = false)
     private String location;
 
+    @NotNull(message = "Date is mandatory")
     @Future(message = "Event date must be in the future")
+    @Column(nullable = false)
     private LocalDate date;
 
-    // ✅ REQUIRED: No-args constructor
+    // Constructors
     public Event() {
     }
 
-    // Optional constructor
     public Event(String title, String description, String location, LocalDate date) {
         this.title = title;
         this.description = description;
@@ -37,8 +40,7 @@ public class Event {
         this.date = date;
     }
 
-    // ✅ Getters & Setters (VERY IMPORTANT)
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
